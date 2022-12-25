@@ -1,0 +1,17 @@
+body {
+    background-color: rgb(31, 31, 31);
+    
+    /* text */
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+#playfield {
+    /* debug */
+    border: white 7px solid;
+    
+    width: 500px;
+    height: 800px;
+
+}
