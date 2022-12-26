@@ -8,6 +8,9 @@ WIDTH, HEIGHT = 480, 320
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Rhythm Game")
 
+# SOUND
+
+
 # FARBEN
 WHITE = (255, 255, 255)
 GRAY = (128, 128, 128)
@@ -18,6 +21,7 @@ PRESSED = (190, 190, 190)
 # EINSTELLUNGEN
 FPS = 60
 SPD = FPS / 10
+KEYS = ["D", "F", "J", "K"]
 
 
 def draw_window(lanes):
@@ -31,6 +35,13 @@ def draw_window(lanes):
 
 
 def main():
+    class Conductor:
+        def __init__(self, bpm, crotchet, offset, songposition):
+            self.bpm = bpm  # beats per minute
+            self.crotchet = crotchet  # crotchet => Länge eines Beats in Sekunden. 60/BPM
+            self.offset = offset  # muss man dann gucken, ne? actually ka..
+            self.songposition = songposition  # 
+
     class Lane:
         def __init__(self, x, y, w, h, c, p):
             self.x = x  # X-Koordinate
@@ -55,23 +66,21 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_d:
-                    lane1.p = True
-                if event.key == pygame.K_f:
-                    lane2.p = True
-                if event.key == pygame.K_j:
-                    lane3.p = True
-                if event.key == pygame.K_k:
-                    lane4.p = True
+                lane = 0
+                for key in KEYS:
+                    key_id = "K_" + key.lower()
+                    lane_id = "lane" + str(lane + 1)
+                    if event.key == getattr(pygame, key_id):
+                        setattr(lanes[lane], "p", True)
+                    lane += 1
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_d:
-                    lane1.p = False
-                if event.key == pygame.K_f:
-                    lane2.p = False
-                if event.key == pygame.K_j:
-                    lane3.p = False
-                if event.key == pygame.K_k:
-                    lane4.p = False
+                lane = 0
+                for key in KEYS:
+                    key_id = "K_" + key.lower()
+                    lane_id = "lane" + str(lane + 1)
+                    if event.key == getattr(pygame, key_id):
+                        setattr(lanes[lane], "p", False)
+                    lane += 1
         for lane in lanes:
             if lane.p:
                 lane.c = PRESSED
