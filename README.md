@@ -1,3 +1,0 @@
-# js-rhythm
-
-testsetset
